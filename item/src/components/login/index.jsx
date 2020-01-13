@@ -1,12 +1,19 @@
 import React, {Component} from 'react';
-import { Form, Input, Button, Icon } from 'antd';
+import { Form, Input, Button, Icon, message } from 'antd';
+
 
 
 import Logo from './logo.png'
 import './index.less'
 
+import { connect } from 'react-redux'
+import { saveUserAsync } from '../../redux/actions'
 
 
+@connect(
+    null,
+    {saveUserAsync}
+)
 class Login extends Component {
     //自定义表单校验规则
     validator = (rule, value, callback)=>{
@@ -31,7 +38,61 @@ class Login extends Component {
          */
         callback();
     }
+    /* 登录按钮模块 */
+    sub = e =>{
+        e.preventDefault();
+        
+        /**
+         * 要做的三件事
+         * 1.校验表单
+         * 2.收集表单数据
+         * 3.发送请求
+         */
+        //1.校验表单并收集数据(使用validateFields方法)
+        this.props.form.validateFields((err,values)=>{
+            
+            if(!err){
+                const { username, password } = values;
+                //这里本来服务器地址是写全名的，但是为了解决跨域问题，用了代理服务器，主机、域名、端口号就不用写了(去除了http://47.103.203.152)
+                /* axios.post('/api/login',{ username, password })
+                    .then(response=>{
+                        //登录请求成功时，获取了一个对象，有status属性，0代表成功，1代表失败(账户名或者密码错误导致)
+                        if(response.data.status === 0){
+                            console.log(response);
+                            //登录成功后，返回一个新页面
+                            //这里不能使用Redirect,因为不在render中，需要使用路由组件的三大属性解决这一问题
+                                //需要回去用push，不需要回退用replace
+                            this.props.history.replace('/'); 
+                        }else{
+                            //登录失败，提示错误
+                            message.error(response.data.msg);
+                            //清空错误的密码
+                            this.props.form.resetFields(['password'])
 
+                        }
+                        
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                        //请求失败(网络出现故障等原因)
+                        message.error('网络出现故障！')
+
+                    }) */
+                    /* ★封装了函数之后就注释上面的axios★ */
+                    this.props.saveUserAsync(username, password)
+                        .then(()=>{
+                            this.props.history.replace('/');
+                        })
+                        .catch(msg=>{
+                            message.error(msg);
+                            this.props.form.resetFields(['password']);
+                        })
+                    
+                    
+            }
+            
+        })
+    }
     render(){
         const { getFieldDecorator } = this.props.form;
         return(
@@ -42,7 +103,7 @@ class Login extends Component {
                 </header>
                 <section className="login-section">
                     <h2>用户登录</h2>
-                    <Form className="login-form">
+                    <Form className="login-form" onSubmit={this.sub}>
                         <Form.Item>
                             {
                                 getFieldDecorator('username',{

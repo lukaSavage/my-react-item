@@ -2,22 +2,27 @@
  * 4.通过prevState和action对象生成的新状态
  */
 import { combineReducers } from 'redux';
+import { SAVE_USER } from './action-types';
+import { getItem } from '../utils/storage';
 
-function aaa(prevState = 111, action) {
-  switch (action.type) {
-    default:
-      return prevState;
-  }
+const initUser = getItem('user') || {};
+function user(prevState = initUser, action) {
+    switch (action.type) {
+        case SAVE_USER:
+            return action.data;
+        default:
+            return prevState;
+    }
 }
 
 function bbb(prevState = 222, action) {
-  switch (action.type) {
-    default:
-      return prevState;
-  }
+    switch (action.type) {
+        default:
+            return prevState;
+    }
 }
 
 export default combineReducers({
-  aaa,
-  bbb
+    user,
+    bbb
 });
