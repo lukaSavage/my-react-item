@@ -3,13 +3,16 @@ import { Form, Input, Button, Icon, message } from 'antd';
 
 
 
+
+
 import Logo from './logo.png'
 import './index.less'
 
 import { connect } from 'react-redux'
 import { saveUserAsync } from '../../redux/actions'
+import withCheckLogin from '../with-check-login'
 
-
+@withCheckLogin
 @connect(
     null,
     {saveUserAsync}

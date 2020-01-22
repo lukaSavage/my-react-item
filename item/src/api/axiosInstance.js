@@ -1,10 +1,13 @@
 /**
  * 01封装axios模块(拦截器函数)
+ * 请求拦截器：设置公共的参数
+ * 响应拦截器：错误的集合
  */
 
 import axios from 'axios'
 
-import errCode from '../config/errCode'
+import { errCode } from '../config/errCode'
+import store from '../redux/store'
 
 //由于一些默认的axios配置选项需要我们去改，所以需要一个新的实例对象去修改这些默认配置
 /* 1.创建axios实例 */
@@ -12,7 +15,7 @@ const axiosInstance = axios.create({
     baseURL: '/api',    //公共请求路径前缀
     timeout: 10000,
     headers: {
-        //公共请求头参数        
+        //公共请求头参数(由于必须写死，所以不写)     
     }
 })
 
@@ -20,8 +23,8 @@ const axiosInstance = axios.create({
     /* 2.1请求拦截器 */
 axiosInstance.interceptors.request.use(
     (config) => {
-        /* 设置一些公共的参数 */
-        let token = '';
+        /* 在这里设置token */
+        let token = store.getState().user.token;
         if (token) {
             config.headers.authorization = `Bearer ${token}`
         }
@@ -48,7 +51,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
     //请求拦截器接收两个回调
     (response)=>{
-        //响应成功时返回成功的回到函数，失败时返回失败的回调函数
+        //响应成功时返回成功的回调函数，失败时返回失败的回调函数
         if(response.data.status ===0 ){
             return response.data.data;
         }else{
@@ -61,10 +64,6 @@ axiosInstance.interceptors.response.use(
         
         //错误原因
         let errMsg = '';
-
-
-
-
         if(err.response){
             //接收到响应了，但是响应是失败的
             //根据响应状态码判断错误类型
