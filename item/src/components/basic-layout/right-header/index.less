@@ -1,0 +1,40 @@
+.right-header{
+    height: 80px;
+    .right-header-top{
+        height: 50px;
+        border-bottom: 1px solid #1DA57A;
+        text-align: right;
+        line-height: 50px;
+        .lang{
+            margin: 0 5px ;
+        }
+    }
+    .right-header-bottom{
+        height: 30px;
+        line-height: 30px;
+        display: flex;
+        font-size: 16px;
+        
+        .right-header-bottom-product{
+            font-weight: bold;
+            text-align: center;
+            flex: 1;
+            position: relative;
+            &::before{
+                content: '';
+                display: block;
+                border: 20px solid transparent;
+                border-top: 20px solid #fff;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: -40px;
+            }
+        }
+        .right-header-bottom-time{
+            text-align: right;
+            margin-right: 15px;
+            flex: 2;
+        }
+    }
+}

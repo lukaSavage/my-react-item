@@ -5,7 +5,7 @@ import { Form, Input, Button, Icon, message } from 'antd';
 
 
 
-import Logo from './logo.png'
+import Logo from '../../assets/img/logo.png'
 import './index.less'
 
 import { connect } from 'react-redux'
