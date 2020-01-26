@@ -2,9 +2,9 @@
  * 2.创建 生成action对象的工厂函数
  * 分为同步action和异步action
  */
-import { reqLogin } from '../api'
+import { reqLogin, reqGetCategoryList, reqAddCategory, reqModifiedCategory, reqDelCategory } from '../api'
 import { setItem } from '../utils/storage'
-import { SAVE_USER, REMOVE_USER, CHANGE_LANGUAGE } from './action-types';
+import { SAVE_USER, REMOVE_USER, CHANGE_LANGUAGE, GET_CATEGORY_LIST, ADD_CATEGORY, MODIFIED_CATEGORY, DELETE_CATEGORY } from './action-types';
 
 const saveUser = user => ({ type: SAVE_USER, data: user });
 
@@ -24,3 +24,53 @@ export const saveUserAsync = (username, password) => {
 }
 export const removeUser = () => ({ type: REMOVE_USER, })
 export const changeLanguage = (lang)=>({type: CHANGE_LANGUAGE, data: lang})
+
+
+//异步获取cagetory的数据内容
+const getCategoryList = categories =>({type: GET_CATEGORY_LIST, data:categories})
+export const getCategoryListAsync = ()=>{
+    return dispatch =>{
+        return reqGetCategoryList()
+            .then(response=>{
+                //调用dispatch触发更新
+                dispatch(getCategoryList(response));
+            })
+    }
+}
+
+//异步添加分类
+const addCategory = category =>({type: ADD_CATEGORY, data:category})
+export const addCategoryAsync = (categoryName)=>{
+    return dispatch =>{
+        return reqAddCategory(categoryName)
+            .then(response=>{
+                //调用dispatch触发更新
+                dispatch(addCategory(response));
+            })
+    }
+}
+
+
+//异步修改分类
+const modifiedCategory = category =>({type: MODIFIED_CATEGORY, data:category})
+export const modifiedCategoryAsync = (categoryId,categoryName)=>{
+    return dispatch =>{
+        return reqModifiedCategory(categoryId,categoryName )
+            .then(response=>{
+                //调用dispatch触发更新
+                dispatch(modifiedCategory(response));
+            })
+    }
+}
+
+//异步删除分类
+const delCategory = category =>({type: DELETE_CATEGORY, data:category})
+export const delCategoryAsync = (categoryId)=>{
+    return dispatch =>{
+        return reqDelCategory(categoryId)
+            .then(response=>{
+                //调用dispatch触发更新
+                dispatch(delCategory(response));
+            })
+    }
+}
