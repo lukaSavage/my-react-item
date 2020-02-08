@@ -36,9 +36,9 @@ class RightHeader extends Component {
     }
     componentDidMount() {
         screenfull.on('change', this.sth);
-        this.timer=setInterval(() => {
+        this.timer = setInterval(() => {
             this.setState({
-                date:Date.now()
+                date: Date.now()
             })
         }, 1000);
     }
@@ -73,12 +73,16 @@ class RightHeader extends Component {
             if (menu.children) {
                 for (let index = 0; index < menu.children.length; index++) {
                     const cMenu = menu.children[index];
-                    if(cMenu.path === pathname){
+                    // 如果pathname是/product或者/product/add,返回product
+                    /* if(cMenu.path === pathname){
+                        return cMenu.title;
+                    } */
+                    if(pathname.indexOf(cMenu.path) !== -1){
                         return cMenu.title;
                     }
                 }
-            } else{
-                if(menu.path === pathname){
+            } else {
+                if (menu.path === pathname) {
                     return menu.title;
                 }
             }

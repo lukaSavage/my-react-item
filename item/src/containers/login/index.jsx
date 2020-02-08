@@ -21,15 +21,17 @@ class Login extends Component {
     //自定义表单校验规则
     validator = (rule, value, callback)=>{
         const regExp = /^\w+$/;
+        const name = rule.field === 'username'? '用户名':'密码';
+        
         if(!value){
-            callback('密码不能为空');
+            callback(`${name}不能为空`);
         }else if(value.length < 4){
-            callback('密码长度必须大于4');
+            callback(`${name}长度必须大于4`);
         }else if(value.length > 15){
-            callback('密码长度必须小于15');
+            callback(`${name}长度必须小于15`);
         }else if(!regExp.test(value)){
             console.log(regExp.test(value));          
-            callback('密码只能包含数字、字母、下划线');
+            callback(`${name}只能包含数字、字母、下划线`);
         }
 
 
@@ -112,10 +114,13 @@ class Login extends Component {
                                 getFieldDecorator('username',{
                                     //校验规则(这种校验规则不好，因为如果满足两个规则，两个message都会显示)
                                     rules: [
-                                        { required: true, message: '用户名不能为空' },
-                                        { min: 3,message: '用户名长度必须大于3' },
-                                        { max: 10,message: '用户名长度必须小于10' },
-                                        {pattern: /^\w+$/,message:'用户名只能包含数字、字母、下划线'},
+                                        // { required: true, message: '用户名不能为空' },
+                                        // { min: 3,message: '用户名长度必须大于3' },
+                                        // { max: 10,message: '用户名长度必须小于10' },
+                                        // {pattern: /^\w+$/,message:'用户名只能包含数字、字母、下划线'},
+
+                                        //复用password的校验规则
+                                        {validator: this.validator}
                                     ],
                                 })(
                                     <Input prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder='用户名'/>

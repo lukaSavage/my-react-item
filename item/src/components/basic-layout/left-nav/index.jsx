@@ -22,7 +22,7 @@ class LeftNav extends Component {
                         title={
                             <span>
                                 <Icon type={item.icon} />
-                                <FormattedMessage id={item.title}/>
+                                <FormattedMessage id={item.title} />
                             </span>
                         }
                     >
@@ -33,7 +33,7 @@ class LeftNav extends Component {
                                     <Menu.Item key={item.path}>
                                         <Link to={item.path}>
                                             <Icon type={item.icon} />
-                                            <FormattedMessage id={item.title}/>
+                                            <FormattedMessage id={item.title} />
                                         </Link>
                                     </Menu.Item>
                                 )
@@ -47,7 +47,7 @@ class LeftNav extends Component {
                     <Menu.Item key={item.path}>
                         <Link to={item.path}>
                             <Icon type={item.icon} />
-                            <FormattedMessage id={item.title}/>
+                            <FormattedMessage id={item.title} />
                         </Link>
                     </Menu.Item>
                 )
@@ -56,21 +56,25 @@ class LeftNav extends Component {
     }
     findOpenKeys = (pathname, menus) => {
         const menu = menus.find((item, index) => {
-            
+
             if (item.children) {
                 return item.children.find(items => items.path === pathname);
             }
         })
-        
-        
+
+
         if (menu) {
             console.log(menu);
-            
+
             return menu.key
         }
     }
     render() {
-        const { pathname } = this.props.location;
+        let { pathname } = this.props.location;
+        //pathname 可能是/product 或者是/product/add
+        if (pathname.indexOf('/product') !== -1) {
+            pathname = '/product';
+        }
         const openKey = this.findOpenKeys(pathname, menus);
         return (
             <Menu theme="dark" defaultSelectedKeys={[pathname]} defaultOpenKeys={[openKey]} mode="inline">

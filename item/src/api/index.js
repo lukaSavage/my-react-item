@@ -4,7 +4,7 @@
 import axiosInstance from './axiosInstance'
 
 //请求登录
-export const reqLogin = (username, password)=>{
+export const reqLogin = (username, password) => {
     return axiosInstance({
         url: '/login',
         method: 'POST',
@@ -16,16 +16,16 @@ export const reqLogin = (username, password)=>{
 }
 
 //请求获取分类数据
-export const reqGetCategoryList = ()=>{
+export const reqGetCategoryList = () => {
     return axiosInstance({
         url: '/category/get',
         method: 'GET',
-        
+
     })
 }
 
 //请求添加分类数据的方法
-export const reqAddCategory = (categoryName)=>{
+export const reqAddCategory = (categoryName) => {
     return axiosInstance({
         url: '/category/add',
         method: 'POST',
@@ -36,7 +36,7 @@ export const reqAddCategory = (categoryName)=>{
 }
 
 //请求修改分类数据
-export const reqModifiedCategory = (categoryId,categoryName)=>{
+export const reqModifiedCategory = (categoryId, categoryName) => {
     return axiosInstance({
         url: '/category/update',
         method: 'POST',
@@ -48,7 +48,7 @@ export const reqModifiedCategory = (categoryId,categoryName)=>{
 }
 
 //请求删除分类数据
-export const reqDelCategory = (categoryId)=>{
+export const reqDelCategory = (categoryId) => {
     return axiosInstance({
         url: '/category/delete',
         method: 'POST',
@@ -56,4 +56,28 @@ export const reqDelCategory = (categoryId)=>{
             categoryId,
         }
     });
+}
+
+//请求获取商品数据
+export const reqGetProductList = (pageNum, pageSize) => {
+    return axiosInstance({
+        url: '/product/list',
+        method: 'GET',
+        params: {
+            pageNum,
+            pageSize
+        }
+
+    })
+}
+//请求添加商品数据
+export const reqAddProduct = ({ name, desc, categoryId, price, detail }) => {
+    return axiosInstance({
+        url: '/product/add',
+        method: 'POST',
+        data: {
+            name, desc, categoryId, price, detail
+        }
+
+    })
 }

@@ -1,3 +1,6 @@
+/**
+ * 该页面使用前台分页做(一次性将所有数据都得到)
+ */
 import React, { Component } from 'react'
 import { Card, Button, Icon, Table, Modal, message } from 'antd'
 import { connect } from 'react-redux'
@@ -19,7 +22,9 @@ class Category extends Component {
         data: ''
     };
     componentDidMount() {
-        this.props.getCategoryListAsync();
+        if(!this.props.categories.length){
+            this.props.getCategoryListAsync();
+        }
     }
     showModal = () => {
         this.setState({
