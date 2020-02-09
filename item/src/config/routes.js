@@ -1,7 +1,8 @@
 import Home from '../components/home'
 import Category from '../containers/category'
 import Product from '../containers/product'
-import AddProduct from '../containers/product/addProduct'
+import ProductManage from '../containers/product/productManage'
+import Role from '../containers/role'
 
 const routes = [
     {
@@ -21,7 +22,17 @@ const routes = [
     },
     {
         path: '/product/add',
-        component: AddProduct,
+        component: ProductManage,
+        exact: true
+    },
+    {
+        path: '/product/update/:id',
+        component: ProductManage,
+        exact: true
+    },
+    {
+        path: '/role',
+        component: Role,
         exact: true
     },
     

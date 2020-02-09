@@ -64,7 +64,7 @@ class LeftNav extends Component {
 
 
         if (menu) {
-            console.log(menu);
+            // console.log(menu);
 
             return menu.key
         }
